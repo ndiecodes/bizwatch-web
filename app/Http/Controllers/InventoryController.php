@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
@@ -58,6 +60,7 @@ class InventoryController extends Controller
         $data = $request->all();
 
         $data['user_id'] = Auth::id();
+        $data['description'] = $request->description ? $request->description : "" ;
 
         try{
             $account = $this->create($data);
@@ -68,13 +71,10 @@ class InventoryController extends Controller
     
         }catch (\Exception $e) {
     
-            $request->session()->flash('error', 'Something went wrong! Please try again!');
+            $request->session()->flash('error', 'Something went wrong! Please try again!'. $e->getMessage());
     
             return redirect()->back();
         }
-
-
-       
     }
 
     /**
@@ -106,9 +106,18 @@ class InventoryController extends Controller
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inventory $inventory)
+    public function sell(Request $request, Inventory $inventory)
     {
-        //
+        $inventory->sold = $request->sold;
+        $inventory->quantity = $inventory->quantity - $request->sold;
+
+        $inventory->save();
+
+        
+        $request->session()->flash('success', 'Congrats on your sale!');
+    
+        return redirect()->back();
+       
     }
 
     /**

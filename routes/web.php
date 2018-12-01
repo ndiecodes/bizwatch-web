@@ -19,10 +19,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+Route::get('logout', 'Auth\LoginController@logout');
+
 Route::get('/home', 'HomeController@index')->name('home');\
 
 
 
 Route::get('/inventory', 'HomeController@inventory');
 
-Route::post('/inventory', 'HomeController@store');
+Route::post('/inventory', 'InventoryController@store');
+
+Route::post('/sell/{inventory}', 'InventoryController@sell');

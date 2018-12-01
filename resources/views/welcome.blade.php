@@ -85,7 +85,7 @@
                 </div>
                 <div class="links m-b-md">
 
-                    <a href="#">Your Business is now independent with you</a>
+                    <a href="#">Take your business with you; anywhere, anytime!</a>
          
                 </div>
                 <div class="links">
